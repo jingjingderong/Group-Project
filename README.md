@@ -1,7 +1,7 @@
 # Group-Project
 
 Group No.: 177
-Group members: Jing Jingderong(), Meiwen Su(3035709277)
+Group members: Jing Jingderong(3035771775), Meiwen Su(3035709277)
 Topic: Walk out a Random Maze via the shortest path
 
 
