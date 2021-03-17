@@ -11,7 +11,7 @@
 # Game Rules
 - Every time players will face a different maze (random generated solvable maze)
 - Players only win when they find the exit via the shortest path (the least steps)
-- there’s only one entrance and only one exit
+- There’s only one entrance and one exit
 - Players can only move in four directions: upwards, downwards, leftwards, and rightwards
 - Players cannot move over the block
 - Players can only move one step each time
