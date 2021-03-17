@@ -36,10 +36,9 @@
 (4) Only win when the player finds the exit via shortest path
 - code element 2. Data structures for storing game status
 - code element 4. File input/output
-- To calculate the least steps used to find the exit, a deep finding search algorithm will be applied to the maze map. Every time the new maze map will be used as input to DFS function. Then the result of DFS will be returned to main function will compare player’s step value and DFS step value at the end.
+- To calculate the least steps used to find the exit, Depth First Search(DFS) will be applied to the maze map. Every time the new maze map will be used as the input to the DFS function. Then the result of DFS will be returned to main function and the number of steps the player moves will be compared with the this result(the minimum steps). Only when these two value are same with each other, "VICTORY" will be shown on the screen.
 
-(5)
-Multiple files to execute the code
+(5) Multiple files to execute the code
 - code element 5. Program codes in multiple files
 - Code Outline:
   1. Program analysis
@@ -50,8 +49,8 @@ Multiple files to execute the code
     - Map.h : set up the maze map
     - Map.cpp : constructor, initialize parameters; destructor, release dynamically requested memory space; set up a random maze map, pass parameters; print the      maze map; set up the exit of the maze
     - player.h : set the position of the character, record the number of steps the character has taken
-    - player.cpp : constructor, initialize data members, console screen buffer handle, characters to be written to the console buffer; number of character cells to be written, game start function
-    - Main.cpp : defines and initializes a two-dimensional array of map data, instantiated from the heap with new, and requires manual memory release after use; 
+    - player.cpp : construct functions, initialize data members, console screen buffer handle, characters to be written to the console buffer; number of character cells to be written, game start function
+    - Main.cpp : defines and initializes a two-dimensional array of map data, instantiated from the heap with new, and requires manual memory release after use
 
 
 
