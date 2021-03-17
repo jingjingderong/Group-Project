@@ -36,7 +36,7 @@
 (4) Only win when the player finds the exit via shortest path
 - code element 2. Data structures for storing game status
 - code element 4. File input/output
-To calculate the least steps used to find the exit, a deep finding search algorithm will be applied to the maze map. Every time the new maze map will be used as input to DFS function. Then the result of DFS will be returned to main function will compare player’s step value and DFS step value at the end.
+- To calculate the least steps used to find the exit, a deep finding search algorithm will be applied to the maze map. Every time the new maze map will be used as input to DFS function. Then the result of DFS will be returned to main function will compare player’s step value and DFS step value at the end.
 
 (5)
 Multiple files to execute the code
