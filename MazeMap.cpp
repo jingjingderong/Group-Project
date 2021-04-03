@@ -1,5 +1,6 @@
 #include "MazeMap.h"
-MazeMap::void init() {
+MazeMap::void init() 
+{
 	//将地图全部置为墙
 	memset(G,WALL,sizeof(G));
 	//定义起始点
@@ -10,7 +11,9 @@ MazeMap::void init() {
 	G[11][10] = NOTHING;
 	start.x = start.y = 1;
 }
-MazeMap::void FindBlock() {
+
+MazeMap::void FindBlock() 
+{
 	//找出与当前位置相邻的墙
 	if(x_num+1<=m && G[x_num+1][y_num] == WALL) {//down
 		myblock.push_back(block(x_num+1,y_num,down));
@@ -26,7 +29,8 @@ MazeMap::void FindBlock() {
 	}
 }
 
-MazeMap::void PrintMap {
+MazeMap::void PrintMap() 
+{
 	init();
 	srand((unsigned)time(NULL));//随机数种子
 	FindBlock();
