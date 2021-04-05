@@ -1,96 +1,99 @@
 #include "MazeMap.h"
-
-
-MazeMap::void init() 
+ 
+/**************************
+*函数名称：MazeMap()
+*函数功能：构造函数，初始化参数
+*函数参数：wall 墙的表示符号
+*修改时间：2016.7.18
+***************************/
+MazeMap::MazeMap(char wall):m_cWall(wall),m_cRoad(' ')
 {
-	//将地图全部置为墙
-	memset(G,WALL,sizeof(G));
-	//定义起始点
-	G[0][1] = NOTHING;
-	G[1][1] = NOTHING;
-	G[11][12] = NOTHING;
-	G[11][11] = NOTHING;
-	G[11][10] = NOTHING;
-	start.x = start.y = 1;
+  m_pMap = NULL;
 }
-
-MazeMap::void FindBlock() 
+/*************************
+*函数名称：~MazeMap()
+*函数功能：析构函数，释放动态申请的内存空间
+*修改时间：2016.7.18
+**************************/
+MazeMap::~MazeMap()
 {
-	//找出与当前位置相邻的墙
-	if(x_num+1<=m && G[x_num+1][y_num] == WALL) {//down
-		myblock.push_back(block(x_num+1,y_num,down));
-	}
-	if(y_num+1<=n && G[x_num][y_num+1] == WALL) {//right
-		myblock.push_back(block(x_num,y_num+1,right));
-	}
-	if(x_num-1>=1 && G[x_num-1][y_num] == WALL) {//up
-		myblock.push_back(block(x_num-1,y_num,up));
-	}
-	if(y_num-1>=1 && G[x_num][y_num-1] == WALL) {//left
-		myblock.push_back(block(x_num,y_num-1,left));
-	}
+  if(m_pMap)
+  {
+    for(int i = 0; i < m_iMapRow; i++)
+    {
+      delete m_pMap[i];
+      m_pMap[i] = NULL;
+    }
+    delete m_pMap;
+  }
 }
-
-MazeMap::void PrintMap() 
+/********************************
+*函数名称：setMazeMap()
+*函数功能：设置迷宫地图，传递参数
+*函数参数：*mazemap 存储地图数据的二维数组的指针
+*      row   二维数组的行数
+*      col   二维数组的列数
+*修改时间：2016.7.18
+**********************************/
+void MazeMap::setMazeMap(int *mazemap, int row, int col)
 {
-	init();
-	srand((unsigned)time(NULL));//随机数种子
-	FindBlock();
-	//第一步压入两堵墙（起点右边和起点下面）进入循环
-	while(myblock.size()) {
-		int BlockSize = myblock.size();
-		//随机选择一堵墙（生成0 ~ BlockSize-1之间的随机数，同时也是vector里墙的下标）
-		int randnum = rand() % BlockSize;
-		block SelectBlock = myblock[randnum];
-		x_num = SelectBlock.row;//矿工来到我们“选择的墙”这里
-		y_num = SelectBlock.column;
-		//根据当前选择的墙的方向进行后续操作
-		//此时，起始点 选择的墙 目标块 三块区域在同一直线上
-		//我们让矿工从“选择的墙”继续前进到“目标块”
-		//矿工有穿墙能力 ：)
-		switch(SelectBlock.direction) {
-			case down: {
-				x_num++;
-				break;
-			}
-			case right: {
-				y_num++;
-				break;
-			}
-			case left: {
-				y_num--;
-				break;
-			}
-			case up: {
-				x_num--;
-				break;
-			}
-		}
-		//目标块如果是墙
-		if(G[x_num][y_num]==WALL) {
-			//打通墙和目标块
-			G[SelectBlock.row][SelectBlock.column] = G[x_num][y_num] = NOTHING;
-			//再次找出与矿工当前位置相邻的墙
-			FindBlock();
-		}
-		else{//如果不是呢？说明我们的矿工挖到了一个空旷的通路上面 休息一下就好了
-			//relax
-		}
-		//删除这堵墙(把用不了的墙删了，对于那些已经施工过了不必再施工了，同时也是确保我们能跳出循环)
-		myblock.erase(myblock.begin()+randnum);
-	}
-	for (int i=0;i<=m+1;i++) {
-		for (int j=0;j<=n+1;j++) {
-			/*
-			if(i == start.x && j == start.y) {
-				printf("%c%c",0xa7,0xb0 );
-			} */
-			if(G[i][j] == NOTHING) {
-				printf("  ");
-			} 
-			else {
-				printf("%c%c", 0xa8, 0x80);
-			}
-		}
-		printf("\n");
+  m_iMapRow = row;
+  m_iMapCol = col;
+  //为存储迷宫地图的二维数组动态分配内存空间
+  m_pMap = new int*[m_iMapRow];    //分配m_iMapRow个存储int类型指针的内存空间
+  for(int i = 0; i < m_iMapRow; i++) 
+    m_pMap[i] = new int[m_iMapCol]; //分配m_iMapCol个存储int类型的内存空间
+ 
+  //将二维数组迷宫地图的数据拷贝给二级指针
+  for(int i = 0; i < m_iMapRow; i++)
+  {
+    for(int j = 0; j < m_iMapCol; j++)
+    {
+      m_pMap[i][j] = *mazemap;
+      mazemap++;
+    }
+  }
+}
+/************************************************
+*函数名称：pintMazeMap()
+*函数功能：打印迷宫地图
+*修改时间：2016.7.18
+*************************************************/
+void MazeMap::pintMazeMap()
+{
+  system("cls");
+  for(int i = 0; i < m_iMapRow; i++) 
+  {
+    for(int j = 0; j < m_iMapCol; j++)
+    {
+      if(m_pMap[i][j])      //数组元素为1，则打印代表墙的字符
+        std::cout << m_cWall;
+      else            //否则，打印代表路的字符
+        std::cout << m_cRoad;
+    }
+    std::cout << std::endl;
+  }
+}
+ 
+/************************************************
+*函数名称：getMap()
+*函数功能：返回地图二维数组指针
+*返 回 值：二级指针
+*修改时间：2016.7.18
+*************************************************/
+int** MazeMap::getMap()
+{
+  return m_pMap;
+}
+/************************************************
+*函数名称：setExitPosition()
+*函数功能：设置迷宫的出口
+*函数参数：x 迷宫出口位置所在行数
+      y 迷宫出口位置所在列数
+*修改时间：2016.7.18
+*************************************************/
+void MazeMap::setExitPosition(int x, int y)
+{
+  m_COORDExitPostion.X = x;
+  m_COORDExitPostion.Y = y;
 }
