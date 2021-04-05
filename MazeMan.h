@@ -9,7 +9,7 @@ enum direction{U,D,L,R};
 class MazeMan
 {
 public:
-  MazeMan(char man = 'T',char manface = R);
+  MazeMan(char man = 'O',char manface = R);
   void setPosition(int x, int y);   //设置游戏角色位置
   void setMap(MazeMap *map);     //设置地图对象
   bool walkUp();           //向上走
