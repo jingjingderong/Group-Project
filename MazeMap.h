@@ -11,7 +11,9 @@
 class MazeMap
 {
 public:
-  MazeMap(char wall = 'X');
+  MazeMap(char wall = "%c%c",0xa7,0xb0);
+ //■
+ //"%c%c", 0xa8, 0x80
   ~MazeMap();
   /*设置迷宫地图*/
   void setMazeMap(int *mazemap, int row, int col);
