@@ -27,20 +27,30 @@ void createMaze(){
 	for(x=0;x<MapRow;x++)
 		for(y=0;y<MapCol;y++)
 			map[x][y] = 1;			//先填充迷宫
+	
+	
+	
+	//最外围层设为路径的原因，为了防止挖路时挖出边界，同时为了保护迷宫主体外的一圈墙体被挖穿
+	for (int i = 0; i < MapRow; i++){
+		map[i][0] = 1;
+		map[0][i] = 1;
+		map[i][MapRow - 1] = 1;
+		map[MapRow - 1][i] = 1;
+	}
+
 
 	srand((unsigned)time(NULL));	//随机函数种子，以时间为参数
-	for(int i=0;i<maxway;i++)		//随机构建迷宫通路
+	for(int i=0;i<maxway;i++)		//随机构建迷宫通路, 1-9
 	{
 		x = rand() % (MapRow-2) + 1;
 		y = rand() % (MapCol-2) + 1;
 		map[x][y] = 0;
 	}	
+	
 
-	map[1][1] = 0; 				//入口
-	map[MapRow-2][MapCol-2] = 0;		//出口
+	map[0][1] = 0; 			//入口
+	map[11][10] = 0;		//出口
 
-	map[0][1] = 3;
- 	map[MapRow-1][MapCol-2] = 0;
 };
 
 	
@@ -48,12 +58,12 @@ void createMaze(){
   //从堆中实例化地图对象
   MazeMap *mm = new MazeMap();
   mm->setMazeMap(&map[0][0],MapRow,MapCol);
-  mm->setExitPosition(10,1);
+  mm->setExitPosition(11,10);
   mm->pintMazeMap();
   //从堆中实例化游戏角色对象
   MazeMan *man = new MazeMan();
   //设置角色起始位置
-  man->setPosition(0,9);
+  man->setPosition(0,1);
   //设置游戏要走的地图
   man->setMap(mm);
   //用new的方式从堆中实例化的对象，使用完毕之后需要手动释放内存
