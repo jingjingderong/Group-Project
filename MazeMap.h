@@ -1,42 +1,30 @@
-//final map is PrintMap()
-
 #ifndef MAZEMAP_H
 #define MAZEMAP_H
-
-#include <bits/stdc++.h>
-
-#define m 11  //row
-#define n 11  //line
-#define down 1
-#define right 2
-#define left 4
-#define up 8
-#define WALL -1
-#define NOTHING 2
-
+ 
+#include <iostream>
+#include <Windows.h>  //COORD
+ 
+//在二维数组里，1代表墙，0代表路
+#define WALL 1
+#define ROAD 0
+ 
 class MazeMap
 {
 public:
-  struct block{
-	  int row,column,direction;
-	  block(int _row,int _column,int _direction){
-		  row = _row;
-		  column = _column;
-		  direction = _direction;
-	    }
-    };
-  struct point{
-	  int x;
-	  int y;
-  }start,end;
-  void init(); //将地图全部置为墙，定义起点终点
-  void FindBlock(); //找出与当前位置相邻的墙
-  void PrintMap(); 
-  
+  MazeMap(char wall = 'X');
+  ~MazeMap();
+  /*设置迷宫地图*/
+  void setMazeMap(int *mazemap, int row, int col);
+  void pintMazeMap();
+  int** getMap();             //返回地图二维数组指针
+  const char m_cRoad;           //常数据成员：路
+  void setExitPosition(int x,int y);   //设置迷宫出口
+  COORD m_COORDExitPostion;  //迷宫的出口
 private:
-  vector<block> myblock;
-  int x_num=1,y_num=1;//矿工位置
-  int G[100][100];
+  const char m_cWall;     //常数据成员：墙
+  int** m_pMap;        //指向迷宫地图二维数组的二级指针
+  int m_iMapRow;       //二维数组的行数
+  int m_iMapCol;       //二维数组的列数
 };
-
+ 
 #endif
