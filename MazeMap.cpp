@@ -1,4 +1,6 @@
 #include "MazeMap.h"
+
+
 MazeMap::void init() 
 {
 	//将地图全部置为墙
