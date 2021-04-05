@@ -1,3 +1,5 @@
+//final map is PrintMap()
+
 #ifndef MAZEMAP_H
 #define MAZEMAP_H
 
