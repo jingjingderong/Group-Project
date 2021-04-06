@@ -85,15 +85,4 @@ int** MazeMap::getMap()
 {
   return m_pMap;
 }
-/************************************************
-*函数名称：setExitPosition()
-*函数功能：设置迷宫的出口
-*函数参数：x 迷宫出口位置所在行数
-      y 迷宫出口位置所在列数
-*修改时间：2016.7.18
-*************************************************/
-void MazeMap::setExitPosition(int x, int y)
-{
-  m_COORDExitPostion.X = x;
-  m_COORDExitPostion.Y = y;
-}
+
