@@ -33,8 +33,7 @@ void MazeMan::setPosition(int x, int y)
   unsigned long numWritten;
   //获得命令行窗口的窗口句柄
   HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-  m_COORDManCurrentPosition.X = x;
-  m_COORDManCurrentPosition.Y = y;
+  map[x][y]
   //在指定坐标位置填充指定的字符,这里我们在游戏角色的当前位置填充代表游戏角色的字符，使游戏角色采出现
   FillConsoleOutputCharacter(handle,m_cMan,1,m_COORDManCurrentPosition,&numWritten);
   //参数说明：控制台屏幕缓冲区句柄，要向控制台缓冲区写入的字符；应写入的字符单元数；
