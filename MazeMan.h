@@ -22,7 +22,7 @@ private:
   char m_cMan;            //代表游戏角色的字符
   char m_cManFace;          //游戏角色的朝向
   int m_iSteps;            //记录游戏角色已经走的步数
-  COORD m_COORDManCurrentPosition;  //游戏角色的当前位置
+
   MazeMap *m_pMap;          //地图对象
 };
 #endif
