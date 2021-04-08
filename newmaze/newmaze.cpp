@@ -1,8 +1,8 @@
 #include <iostream>
-#include <cstdlib>			
+#include <cstdlib>			//dynamic memory management
 #include <unistd.h>			//to use sleep function
 #include <stdio.h>			//getchar	
-#include <ctime>			
+#include <ctime>			//used in random number generator 
 #include <termios.h>		//terminal setting
 
 #define MAX_X 15
@@ -124,7 +124,7 @@ void printMaze(){
 		{
 			if(maze[x][y]==0){cout<<"  ";continue;}		//repsrent roards using space
 			if(maze[x][y]==1){cout<<"口";continue;}		//represent walls using ■
-			if(maze[x][y]==7){cout<<"* ";continue;}		//represent the play using *
+			if(maze[x][y]==7){cout<<"¥ ";continue;}		//represent the play using *
 		}
 		cout<<endl;
 	}
@@ -230,6 +230,7 @@ char getch(){
 
 void move(){
 	int x=0,y=1;							//start from maze[0][1]	
+	maze[0][1] = 7;
 	while(1){
 		switch(getch()){
 			case 's':						//type s to move downwards
