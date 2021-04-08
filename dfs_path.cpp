@@ -1,106 +1,47 @@
-#include "dfs_path.h"
-
-
-// check whether given cell (row, col) is a valid
-// cell or not.
-bool isValid(int row, int col)
-{
-	// return true if row number and column number
-	// is in range
-	return (row >= 0) && (row < ROW) &&
-		(col >= 0) && (col < COL);
+#include <iostream>
+#include <cstdio>
+using namespace std;
+int p0,q0,p1,q1;//储存起始点和终点的横纵坐标
+char a[15][15];//根据数据量自己调整 
+int book[15][15];//标记数组来判断有没有到达 
+int next[4][2]={{0,1},{1,0},{0,-1},{-1,0}};//分别储存x,y坐标下一步的可能情况 
+int mini=99999;//先给最小路径一个很大的初值     
+int n,m;
+void dfs(int x,int y,int step){
+    if(x==p1&&y==q1){
+        if(step<mini)
+        mini=step; 
+        return ;//函数直接结束
+    }
+    for(int k=0;k<4;k++){
+        int nx=x+next[k][0], ny=y+next[k][1];//枚举下一步可能的横纵坐标
+        if(nx<1||nx>n||ny<1||ny>m){//控制不越界 
+            continue;
+        }
+        if(book[nx][ny]==0&&a[nx][ny]=='0'||book[nx][ny]==0&&a[nx][ny]=='G'){
+            //cout<<step<<endl;
+            book[nx][ny]=1;//标记走过了 
+            dfs(nx,ny,step+1);
+            book[nx][ny]=0;//注意dfs后返回这一点为没走过。 
+        }
+    } 
+        return ; 
 }
-
-
-
-
-// function to find the shortest path between
-// a given source cell to a destination cell.
-int BFS(int mat[][COL], Point src, Point dest)
-{
-	// check source and destination cell
-	// of the matrix have value 1
-	if (!mat[src.x][src.y] || !mat[dest.x][dest.y])
-		return -1;
-
-	bool visited[ROW][COL];
-	memset(visited, false, sizeof visited);
-	
-	// Mark the source cell as visited
-	visited[src.x][src.y] = true;
-
-	// Create a queue for BFS
-	queue<queueNode> q;
-	
-	// Distance of source cell is 0
-	queueNode s = {src, 0};
-	q.push(s); // Enqueue source cell
-
-	// Do a BFS starting from source cell
-	while (!q.empty())
-	{
-		queueNode curr = q.front();
-		Point pt = curr.pt;
-
-		// If we have reached the destination cell,
-		// we are done
-		if (pt.x == dest.x && pt.y == dest.y)
-			return curr.dist;
-
-		// Otherwise dequeue the front
-		// cell in the queue
-		// and enqueue its adjacent cells
-		q.pop();
-
-		for (int i = 0; i < 4; i++)
-		{
-			int row = pt.x + rowNum[i];
-			int col = pt.y + colNum[i];
-			
-			// if adjacent cell is valid, has path and
-			// not visited yet, enqueue it.
-			if (isValid(row, col) && mat[row][col] &&
-			!visited[row][col])
-			{
-				// mark cell as visited and enqueue it
-				visited[row][col] = true;
-				queueNode Adjcell = { {row, col},
-									curr.dist + 1 };
-				q.push(Adjcell);
-			}
-		}
-	}
-
-	// Return -1 if destination cannot be reached
-	return -1;
-}
-
-
-// Driver program to test above function
-int main()
-{
-	int mat[ROW][COL] =
-	{
-		{ 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
-		{ 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
-		{ 1, 1, 1, 0, 1, 1, 0, 1, 0, 1 },
-		{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-		{ 1, 1, 1, 0, 1, 1, 1, 0, 1, 0 },
-		{ 1, 0, 1, 1, 1, 1, 0, 1, 0, 0 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
-		{ 1, 1, 0, 0, 0, 0, 1, 0, 0, 1 }
-	};
-
-	Point source = {0, 0};
-	Point dest = {3, 4};
-
-	int dist = BFS(mat, source, dest);
-
-	if (dist != -1)
-		cout << "Shortest Path is " << dist ;
-	else
-		cout << "Shortest Path doesn't exist";
-
-	return 0;
+int main(){
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=m;j++){
+            if(a[i][j]=='S'){
+                p0=i;q0=j;
+            }
+            if(a[i][j]=='G'){
+                p1=i;q1=j;
+            }
+        }
+    }
+    //cout<<p0<<q0<<p1<<q1<<endl;
+    //if(a[2][1]=='.')    cout<<"just a test \n";
+    book[p0][q0]=1;//标记起始点走过了 
+    dfs(p0,q0,0);
+    cout<<mini<<endl;
+    return 0;
 }
