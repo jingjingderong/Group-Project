@@ -1,12 +1,3 @@
-#include <iostream>
-#include <cstdio>
-using namespace std;
-int p0,q0,p1,q1;//储存起始点和终点的横纵坐标
-char a[15][15];//根据数据量自己调整 
-int book[15][15];//标记数组来判断有没有到达 
-int next[4][2]={{0,1},{1,0},{0,-1},{-1,0}};//分别储存x,y坐标下一步的可能情况 
-int mini=99999;//先给最小路径一个很大的初值     
-int n,m;
 void dfs(int x,int y,int step){
     if(x==p1&&y==q1){
         if(step<mini)
@@ -27,7 +18,8 @@ void dfs(int x,int y,int step){
     } 
         return ; 
 }
-int main(){
+void count(){
+    //需要获取mazemap的完整地图数据
     for(int i=1;i<=n;i++){
         for(int j=1;j<=m;j++){
             if(a[i][j]=='S'){
@@ -42,6 +34,6 @@ int main(){
     //if(a[2][1]=='.')    cout<<"just a test \n";
     book[p0][q0]=1;//标记起始点走过了 
     dfs(p0,q0,0);
-    cout<<mini<<endl;
+    std :: cout<<mini<<std :: endl;
     return 0;
 }
