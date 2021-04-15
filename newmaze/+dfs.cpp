@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>			//dynamic memory management
 #include <unistd.h>			//to use sleep function
-#include <stdio.h>			//getchar	
-#include <ctime>			//used in random number generator 
+#include <stdio.h>			//getchar
+#include <ctime>			//used in random number generator
 #include <termios.h>		//terminal setting
 
 #define MAX_X 15
@@ -13,7 +13,8 @@ bool slow = false;
 using namespace std;
 
 int maze[MAX_X][MAX_Y];		//creat a 2D int array to store mazemap
-int book[MAX_X][MAX_Y];     //in DFS: mark the array and see if it arrived
+int book[15][15];//标记数组来判断有没有到达
+int pmove = 0;
 int mini = 99999;
 
 
@@ -108,7 +109,7 @@ void createMaze(){
 		x = rand() % (MAX_X-2) + 1; //only fill 1-13 rows
 		y = rand() % (MAX_Y-2) + 1; //only fill 1-13 columns
 		maze[x][y] = 0;
-	}	
+	}
 
 	maze[0][1] = 0; 				//the entrance
 	maze[MAX_X-1][MAX_Y-2] = 0;		//the exit
@@ -144,7 +145,7 @@ void check(stack_of_maze &s){
 		for(int y=0;y<MAX_Y;y++)
 			temp[x][y] = maze[x][y];
 
-	int x=0,y=1;					//出发点	
+	int x=0,y=1;					//出发点
 	while(1){
 		temp[x][y] = 7;
 
@@ -212,19 +213,19 @@ void check(stack_of_maze &s){
 
 //输入,windows下可以使用#incldue<conio.h>替代此函数
 char getch(){
-	char ch;   
+	char ch;
     static struct termios oldt, newt;				//保存原有终端属性和新设置的终端属性
     tcgetattr( STDIN_FILENO, &oldt);				//获得终端原有属性并保存在结构体oldflag
 
     //设置新的终端属性
     newt = oldt;
-    newt.c_lflag &= ~(ICANON);          
+    newt.c_lflag &= ~(ICANON);
     tcsetattr( STDIN_FILENO, TCSANOW, &newt);
 
     //取消回显
     system("stty -echo");
     ch = getchar();
-    system("stty echo");    
+    system("stty echo");
 
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt);		//让终端恢复为原有的属性
 	return ch;
@@ -252,12 +253,12 @@ void dfs( int x,int y,int step ){
         return ;
 }
 
+
 void move(){
-    int pmove = 0;
-	int x=0,y=1;							//start from maze[0][1]	
+	int x=0,y=1;
+	book[0][1] = 1;
+        dfs(0,1,0); //start from maze[0][1]
 	maze[0][1] = 7;
-	book[0][1]=1;//标记起始点走过了
-    dfs(0,1,0);
 	while(1){
 		switch(getch()){
 			case 's':						//type s to move downwards
@@ -267,34 +268,36 @@ void move(){
 					maze[x][y] = 7;			//print current position
 					printMaze();
 					pmove += 1;
-					cout<<"\n              You have moved "<< pmove << " steps." << endl;
+					cout<<"\n\n              You have moved "<< pmove << " steps." << endl;
 					if((x==MAX_X-1)&&(y==MAX_Y-2)){
-						cout<<"\n\n              You Escaped ";
-						if (mini == pmove)
-						    cout << "Successfully" << endl;
-						else 
-						    cout << "Unseccessfully" << endl;
+						cout<<"\n\n              You Escaped!";
+					    if (pmove > mini)
+					    cout << "\n\n              Fail" << endl;
+					    else
+					    cout << "\n\n              Success" << endl;
 						return;
 					}
-				}				
+				}
 				break;
 
 			case 'd':					//type d to move rightwards
 				if(maze[x][y+1]==0){
-					maze[x][y] = 0;
-					y = y + 1;
-					maze[x][y] = 7;
-					printMaze();
-					pmove += 1;
-					cout<<"\n              You have moved "<< pmove << " steps." << endl;
-					if((x==MAX_X-1)&&(y==MAX_Y-2)){
-                        cout<<"\n\n              You Escaped ";
-						if (mini == pmove)
-						    cout << "Successfully" << endl;
-						else 
-						    cout << "Unseccessfully" << endl;
-						return;
-					}		
+					if(maze[x][y+1]==0){
+						maze[x][y] = 0;
+						y = y + 1;
+						maze[x][y] = 7;
+						printMaze();
+						pmove += 1;
+					    cout<<"\n\n              You have moved "<< pmove << " steps." << endl;
+						if((x==MAX_X-1)&&(y==MAX_Y-2)){
+							cout<<"\n\n            You Escaped!"<<endl;
+                            if (pmove > mini)
+					        cout << "\n\n              Fail" << endl;
+					        else
+					        cout << "\n\n              Success" << endl;
+							return;
+						}
+					}
 				}
 				break;
 
@@ -305,16 +308,16 @@ void move(){
 					maze[x][y] = 7;
 					printMaze();
 					pmove += 1;
-					cout<<"\n              You have moved "<< pmove << " steps." << endl;
+					cout<<"\n\n              You have moved "<< pmove << " steps." << endl;
 					if((x==MAX_X-1)&&(y==MAX_Y-2)){
-                        cout<<"\n\n              You Escaped ";
-						if (mini == pmove)
-						    cout << "Successfully" << endl;
-						else 
-						    cout << "Unseccessfully" << endl;
+						cout<<"\n\n              You Escaped!"<<endl;
+						if (pmove > mini)
+					    cout << "\n\n              Fail" << endl;
+					    else
+					    cout << "\n\n              Success" << endl;
 						return;
 					}
-				}	
+				}
 				break;
 
 			case 'a':					//type a to move leftwards
@@ -322,30 +325,28 @@ void move(){
 					maze[x][y] = 0;
 					y = y - 1;
 					maze[x][y] = 7;
-					printMaze();
-					pmove += 1;
-					cout<<"\n              You have moved "<< pmove << " steps." << endl;
+					printMaze();pmove += 1;
+					cout<<"\n\n              You have moved "<< pmove << " steps." << endl;
 					if((x==MAX_X-1)&&(y==MAX_Y-2)){
-                        cout<<"\n\n              You Escaped ";
-						if (mini == pmove)
-						    cout << "Successfully" << endl;
-						else 
-						    cout << "Unseccessfully" << endl;
+						cout<<"\n\n              You Escaped!"<<endl;
+						if (pmove > mini)
+					    cout << "\n\n              Fail" << endl;
+					    else
+					    cout << "\n\n              Success" << endl;
 						return;
 					}
-				}		
+				}
 				break;
 		}
 	}
 }
-
 
 void menu();
 
 void gamestart(){
 	flag = false;
 	while(!flag){
-		stack_of_maze stack;			//定义一个栈的对象，用来记录行走路线	
+		stack_of_maze stack;			//定义一个栈的对象，用来记录行走路线
 		createMaze();
 		check(stack);
 		system("clear");
@@ -359,12 +360,12 @@ void gamestart(){
 	printMaze();						//输出当前迷宫的初始状态
 	cout<<"\n\n		* Press Enter to Start *"<<endl;
 	getchar();
-	
+
 	move();
 	cout<<"\n\n		* Press Enter to Continue *"<<endl;
 	getchar();
 	menu();
-	
+
 }
 
 void menu(){
