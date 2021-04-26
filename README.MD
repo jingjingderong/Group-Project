@@ -22,9 +22,9 @@
 (1) Random solvable maze
 - code element 1. Generation of random game sets
 - code element 3. Dynamic memory management
-- A 20x20 maze will be randomly generated every time player starts the game. Using time as root for srand to generate random blocks and maze path. Applying dynamic memory management (delete in the first run, then new for the rest). Objects instantiated from the heap by new need to be manually freed from memory after use. Every time there’s a new maze, the maze will be stored in an array. Apply void function to make sure there will always be at least one successful path.
+- A 15x15 maze will be randomly generated every time player starts the game. Using time as root for srand to generate random blocks and maze path. Applying dynamic memory management (delete in the first run, then new for the rest). Objects instantiated from the heap by new need to be manually freed from memory after use. Every time there’s a new maze, the maze will be stored in an array. Apply void function to make sure there will always be at least one successful path.
 
-(2) Maze map will be a 20x20 rectangle with walls
+(2) Maze map will be a 15x15 rectangle with walls
 - code element 2. Data structures for storing game status
 - The maze will be a rectangular grid so the data structure will be a 2D array. Each element of the array representing 1 row, and each element of the inner arrays representing 1 cell in that row. Cell can be either empty (movable cell) or block (non-movable cell). 
 			￼
@@ -47,10 +47,14 @@
 
   2. Program implementation
     - Map.h : set up the maze map
-    - Map.cpp : constructor, initialize parameters; destructor, release dynamically requested memory space; set up a random maze map, pass parameters; print the      maze map; set up the exit of the maze
+    - Map.cpp : constructor, initialize parameters; destructor, release dynamically requested memory space; set up a random maze map, pass parameters; print the maze map; set up the exit of the maze
     - player.h : set the position of the character, record the number of steps the character has taken
     - player.cpp : construct functions, initialize data members, console screen buffer handle, characters to be written to the console buffer; number of character cells to be written, game start function
     - Main.cpp : defines and initializes a two-dimensional array of map data, instantiated from the heap with new, and requires manual memory release after use
+    - Mazegame.h : 
+    - Mazegame.cpp : The total code can be divided into 3 parts
+    - 1.Map
+    - In this part
 
 
 
