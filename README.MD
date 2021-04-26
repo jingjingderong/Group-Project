@@ -47,10 +47,10 @@
 
   2. Program implementation
     - The total code can be divided into 3 parts
-      - 1.Map
+        - 1.Map
         - create a random maze 
-	- make sure that it has a shortest path
-	- print the maze map
+        - make sure that it has a shortest path
+        - print the maze map
       - 2.Player
         - get the character that user tap 
         - use a stack to record the rout of player's move and print the player's position of every move
