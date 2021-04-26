@@ -46,21 +46,18 @@
     - Create the class of the person walking the maze.
 
   2. Program implementation
-    - Map.h : set up the maze map
-    - Map.cpp : constructor, initialize parameters; destructor, release dynamically requested memory space; set up a random maze map, pass parameters; print the maze map; set up the exit of the maze
-    - player.h : set the position of the character, record the number of steps the character has taken
-    - player.cpp : construct functions, initialize data members, console screen buffer handle, characters to be written to the console buffer; number of character cells to be written, game start function
-    - Main.cpp : defines and initializes a two-dimensional array of map data, instantiated from the heap with new, and requires manual memory release after use
-    - Mazegame.h : 
-    - Mazegame.cpp : The total code can be divided into 3 parts
+    - The total code can be divided into 3 parts
       - 1.Map
         - create a random maze 
 	- make sure that it has a shortest path
 	- print the maze map
       - 2.Player
         - get the character that user tap 
-        - use a stack to record the rout of player's move and print the player's position every move
-        -       
+        - use a stack to record the rout of player's move and print the player's position of every move
+        - search the shortest path of the maze using dfs and compare the value with player moves, output different words in different sitution.
+      - 3.Overall
+        - initial screen
+        - combine all the part together      
 
 
 
